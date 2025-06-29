@@ -504,48 +504,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1902610210}
-  - component: {fileID: 1902610209}
-  - component: {fileID: 1902610208}
+  - component: {fileID: 1902610211}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: WalleExample
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1902610208
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1902610207}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1898271cefe681c47ac35863a934e435, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _valueToSpend: 1
-  _valueToRecieve: 1
-  _money: 0
-  _diamonds: 0
-  _energy: 0
---- !u!114 &1902610209
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1902610207}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10f78b50e1a6cc841a74cb244062df50, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PrefabOfWalletUI: {fileID: 3891645182816956655, guid: abd3b23f1fefcbe4081876537e938828,
-    type: 3}
-  PrefabOfEducationalUI: {fileID: 831679936371576259, guid: face4b3a2b4425e46ab053eb20ed4170,
-    type: 3}
 --- !u!4 &1902610210
 Transform:
   m_ObjectHideFlags: 0
@@ -561,6 +527,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1902610211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1902610207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5289cb7b83e44094c810702ac7e9cffe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _valueToSpendOrRecieve: 5
+  PrefabOfWalletUI: {fileID: 3891645182816956655, guid: abd3b23f1fefcbe4081876537e938828,
+    type: 3}
+  PrefabOfEducationalUI: {fileID: 831679936371576259, guid: face4b3a2b4425e46ab053eb20ed4170,
+    type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class TimerService : MonoBehaviour
+public class TimerService
 {
     public event Action Started;
     public event Action Stoped;
@@ -12,45 +12,28 @@ public class TimerService : MonoBehaviour
     public event Action Reseted;
     public event Action Counted;
 
-    [SerializeField] private float _startTime;
+    private float _startTime;
 
     private float _currentTime;
 
-    private bool _isStarted;
-    private bool _isPaused;
+    public bool IsStarted;
+    public bool IsPaused;
+
+    public TimerService(float startTime)
+    {
+        _startTime = startTime;
+        _currentTime = _startTime; 
+    }
 
     public float CurrentTime => _currentTime;
     public float StartTime => _startTime;
 
-    public bool IsStarted { get => _isStarted; set => _isStarted = value; }
-    public bool IsPaused { get => _isPaused; set => _isPaused = value; }
-
-    private void Awake()
+    public void Update()
     {
-        Started += OnStartTimer;
-        Continued += OnStopOrContinued;
-        Stoped += OnStopOrContinued;
-        Reseted += OnResetTimer;
-        Counted += Count;
-
-        _currentTime = _startTime;
-    }
-
-    private void Update()
-    {
-        if (_isStarted == true && _isPaused == false)
+        if (IsStarted == true && IsPaused == false)
         {
-            Counted?.Invoke();
+            Count();
         }
-    }
-
-    private void OnDestroy()
-    {
-        Started -= OnStartTimer;
-        Continued -= OnStopOrContinued;
-        Stoped -= OnStopOrContinued;
-        Reseted -= OnResetTimer;
-        Counted -= Count;
     }
 
     private void Count()
@@ -63,36 +46,39 @@ public class TimerService : MonoBehaviour
         {
             _currentTime = 0;
         }
-    }
 
-    private void OnStartTimer()
-    {
-        _isStarted = true;
-        _isPaused = false;
-    }
-
-    private void OnStopOrContinued()
-    {
-        _isPaused = !_isPaused;
-    }
-
-    private void OnResetTimer()
-    {
-        _currentTime = _startTime;
-        _isStarted = false;
-        _isPaused = false;
+        Counted?.Invoke();
     }
 
     public void StartTimer()
-    => Started?.Invoke();
-    
-    public void StopTimer()
-    => Stoped?.Invoke();
+    {
+        IsStarted = true;
+        IsPaused = false;
 
-    public void ContinueTimer()
-    => Continued?.Invoke();
-    
+        Started?.Invoke();
+    }
+
+    public void StopOrContinuedTimer()
+    {
+        if(IsPaused == false)
+        {
+            Continued?.Invoke();
+            IsPaused = true;
+        }
+        else if (IsPaused == true)
+        {
+            Stoped?.Invoke();
+            IsPaused = false;
+        }
+    }
+
     public void ResetTimer()
-    => Reseted?.Invoke();
+    {
+        _currentTime = _startTime;
+        IsStarted = false;
+        IsPaused = false;
+
+        Reseted?.Invoke();
+    }
 
 }

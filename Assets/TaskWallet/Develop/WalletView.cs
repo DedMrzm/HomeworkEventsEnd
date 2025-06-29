@@ -1,32 +1,28 @@
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class WalletView : MonoBehaviour
 {
-    private Dictionary<string, TMP_Text> _currencyTexts;
+    private Dictionary<CurrenciesTypes, TMP_Text> _currencyTexts = new Dictionary<CurrenciesTypes, TMP_Text>();
 
     [SerializeField] private TMP_Text _moneyText;
     [SerializeField] private TMP_Text _diamondText;
     [SerializeField] private TMP_Text _energyText;
 
-    [SerializeField] private Wallet _wallet;
+    private Wallet _wallet;
 
-    private void Awake()
+    public void Initialize(Wallet wallet)
     {
-        _wallet = FindAnyObjectByType<Wallet>();
+        _wallet = wallet;
 
-        _currencyTexts = new Dictionary<string, TMP_Text>()
-       {
-           {"Money", _moneyText},
-           {"Diamonds", _diamondText},
-           {"Energy", _energyText},
-       };
+        _currencyTexts.Add(CurrenciesTypes.Money, _moneyText);
+        _currencyTexts.Add(CurrenciesTypes.Energy, _energyText);
+        _currencyTexts.Add(CurrenciesTypes.Diamonds, _diamondText);
 
-        foreach(string key in _wallet.Currencies.Keys)
+        foreach (CurrenciesTypes currencyType in _wallet.Currencies.Keys)
         {
-            _currencyTexts[key].text = _wallet.Currencies[key].ToString();
+            _currencyTexts[currencyType].text = _wallet.Currencies[currencyType].ToString();
         }
 
         _wallet.Spended += OnChanged;
@@ -39,7 +35,7 @@ public class WalletView : MonoBehaviour
         _wallet.Recieved -= OnChanged;
     }
 
-    private void OnChanged(int spendedValue, string key)
+    private void OnChanged(int spendedValue, CurrenciesTypes key)
     {
         _currencyTexts[key].text = _wallet.Currencies[key].ToString();
     }

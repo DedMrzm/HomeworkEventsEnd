@@ -612,9 +612,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1656129918}
-        m_TargetAssemblyTypeName: TimerService, Assembly-CSharp
-        m_MethodName: StopTimer
+      - m_Target: {fileID: 1656129920}
+        m_TargetAssemblyTypeName: TimerExample, Assembly-CSharp
+        m_MethodName: StopOrContinuedTimer
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1007,8 +1007,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1656129918}
-        m_TargetAssemblyTypeName: TimerService, Assembly-CSharp
+      - m_Target: {fileID: 1656129920}
+        m_TargetAssemblyTypeName: TimerExample, Assembly-CSharp
         m_MethodName: StartTimer
         m_Mode: 1
         m_Arguments:
@@ -1313,7 +1313,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _typeOfTimerView: 0
-  _timerService: {fileID: 1656129918}
+  _timerExample: {fileID: 1656129920}
   _startPanel: {fileID: 1647568289}
   _playPanel: {fileID: 164304017}
   _textOfPlayButton: {fileID: 550357571}
@@ -1586,27 +1586,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1656129919}
-  - component: {fileID: 1656129918}
+  - component: {fileID: 1656129920}
   m_Layer: 0
-  m_Name: TimerService
+  m_Name: Example
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1656129918
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1656129917}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f5b6f9af0354ef44804be43036c8615, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _startTime: 5
 --- !u!4 &1656129919
 Transform:
   m_ObjectHideFlags: 0
@@ -1622,6 +1609,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1656129920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1656129917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f845be11e499af4f95db7450aaf244a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _startTime: 5
 --- !u!1 &1695777837
 GameObject:
   m_ObjectHideFlags: 0
@@ -1705,8 +1705,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1656129918}
-        m_TargetAssemblyTypeName: TimerService, Assembly-CSharp
+      - m_Target: {fileID: 1656129920}
+        m_TargetAssemblyTypeName: TimerExample, Assembly-CSharp
         m_MethodName: ResetTimer
         m_Mode: 1
         m_Arguments:

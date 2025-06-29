@@ -2,74 +2,36 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Wallet : MonoBehaviour, ICurrencySpender, ICurrencyReciever
+public class Wallet
 {
-    public event Action<int, string> Spended;
-    public event Action<int, string> Recieved;
+    public event Action<int, CurrenciesTypes> Spended;
+    public event Action<int, CurrenciesTypes> Recieved;
 
-    public Dictionary<string, int> Currencies { get; set; }
+    public Dictionary<CurrenciesTypes, int> Currencies = new Dictionary<CurrenciesTypes, int>();
 
-    [SerializeField] private int _valueToSpend;
-    [SerializeField] private int _valueToRecieve;
-
-    private CurrencySpender _currencySpender;
-    private CurrencyReciever _currencyReciever;
-
-    [SerializeField] private int _money;
-    [SerializeField] private int _diamonds;
-    [SerializeField] private int _energy;
-
-    private void Awake()
+    public Wallet(params CurrenciesTypes[] currencies)
     {
-        Currencies = new Dictionary<string, int>()
-        {
-            {"Money", 5 },
-            {"Diamonds", 5},
-            {"Energy", 5},
-        };
-
-        _currencyReciever = new CurrencyReciever(this);
-        _currencySpender = new CurrencySpender(this);
-
-        _currencySpender.Initialize();
-        _currencyReciever.Initialize();
+        foreach (CurrenciesTypes currencyType in currencies)
+            Currencies.Add(currencyType, 5);
     }
 
-    private void OnDestroy()
+    public void Recieve(CurrenciesTypes currencyType, int value)
     {
-        _currencySpender.Deinitialize();
-        _currencyReciever.Deinitialize();
+        if (value < 0)
+            return;
+
+        Currencies[currencyType] += value;
+
+        Recieved?.Invoke(value, currencyType);
     }
 
-    private void Update()
+    public void Spend(CurrenciesTypes currencyType, int value)
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            Spended?.Invoke(_valueToSpend, "Money");
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            Recieved?.Invoke(_valueToRecieve, "Money");
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            Spended?.Invoke(_valueToSpend, "Diamonds");
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            Recieved?.Invoke(_valueToRecieve, "Diamonds");
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            Spended?.Invoke(_valueToSpend, "Energy");
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha6))
-        {
-            Recieved?.Invoke(_valueToRecieve, "Energy");
-        }
+        if (value < 0 || Currencies[currencyType] - value < 0)
+             return;
 
-        _money = Currencies["Money"];
-        _diamonds = Currencies["Diamonds"];
-        _energy = Currencies["Energy"];
+        Currencies[currencyType] -= value;
+
+        Spended?.Invoke(value, currencyType);
     }
 }
