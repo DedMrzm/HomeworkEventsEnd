@@ -2,7 +2,7 @@ using System;
 
 public interface ITimerView
 {
-    float CurrentTime { get; }
+    IReadonlyVariable<float> CurrentTime { get; }
 
     void OnStart();
 

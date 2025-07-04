@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -22,22 +23,26 @@ public class WalletView : MonoBehaviour
 
         foreach (CurrenciesTypes currencyType in _wallet.Currencies.Keys)
         {
-            _currencyTexts[currencyType].text = _wallet.Currencies[currencyType].ToString();
-        }
+            _currencyTexts[currencyType].text = _wallet.Currencies[currencyType].Value.ToString();
 
-        _wallet.Spended += OnChanged;
-        _wallet.Recieved += OnChanged;
+            _wallet.Currencies[currencyType].Changed += OnChanged;
+        }
     }
 
     private void OnDestroy()
     {
-        _wallet.Spended -= OnChanged;
-        _wallet.Recieved -= OnChanged;
+        foreach(ReactiveVariable<int> reactiveVariable in _wallet.Currencies.Values)
+        {
+            reactiveVariable.Changed -= OnChanged;
+        }
     }
 
-    private void OnChanged(int spendedValue, CurrenciesTypes key)
+    private void OnChanged(int non1, int non2)
     {
-        _currencyTexts[key].text = _wallet.Currencies[key].ToString();
+        foreach (CurrenciesTypes currencyType in _wallet.Currencies.Keys)
+        {
+            _currencyTexts[currencyType].text = _wallet.Currencies[currencyType].Value.ToString();
+        }
     }
 
 }

@@ -8,8 +8,6 @@ public class TimerView : MonoBehaviour
 {
     [SerializeField] private TypeOfTimerView _typeOfTimerView;
 
-    [SerializeField] private TimerExample _timerExample;
-
     private TimerService _timerService;
 
     [SerializeField] private GameObject _startPanel;
@@ -28,9 +26,9 @@ public class TimerView : MonoBehaviour
     [SerializeField] private GameObject _panelOfSliderView;
     [SerializeField] private Slider _slider;
 
-    private void Start()
+    public void Initialize(TimerService timerService)
     {
-        _timerService = _timerExample.TimerService;
+        _timerService = timerService;
 
         CreateTimer();
 

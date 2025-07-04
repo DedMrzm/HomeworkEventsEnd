@@ -18,34 +18,36 @@ public class SliderTimerView : ITimerView
         _slider = slider;
     }
 
-    public float CurrentTime => _timerService.CurrentTime;
+    public IReadonlyVariable<float> CurrentTime => _timerService.CurrentTime;
 
     public void Initialize()
     {
         _timerService.Started += OnStart;
         _timerService.Reseted += OnReset;
-        _timerService.Counted += OnCount;
+        _timerService.CurrentTime.Changed += OnChanged;
     }
 
     public void Deinitialize()
     {
         _timerService.Started -= OnStart;
         _timerService.Reseted -= OnReset;
-        _timerService.Counted -= OnCount;
+        _timerService.CurrentTime.Changed -= OnChanged;
     }
 
     public void OnStart()
     {
         _slider.value = StartValueOfSlider;
     }
-    public void OnCount()
-    {
-        _slider.value = _timerService.CurrentTime / (_timerService.StartTime);
-    }
+    public void OnChanged(float non1, float non2)
+        => OnCount();
 
     public void OnReset()
     {
         _slider.value = StartValueOfSlider;
     }
 
+    public void OnCount()
+    {
+        _slider.value = _timerService.CurrentTime.Value / (_timerService.StartTime);
+    }
 }

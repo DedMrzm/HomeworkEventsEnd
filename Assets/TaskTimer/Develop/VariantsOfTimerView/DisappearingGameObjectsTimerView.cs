@@ -23,20 +23,20 @@ public class DisappearingGameObjectsTimerView : ITimerView
         _startTime = _timerService.StartTime;
     }
 
-    public float CurrentTime => _timerService.CurrentTime;
+    public IReadonlyVariable<float> CurrentTime => _timerService.CurrentTime;
 
     public void Initialize()
     {
         _timerService.Started += OnStart;
         _timerService.Reseted += OnReset;
-        _timerService.Counted += OnCount;
+        _timerService.CurrentTime.Changed += OnChanged;
     }
 
     public void Deinitialize()
     {
         _timerService.Started -= OnStart;
         _timerService.Reseted -= OnReset;
-        _timerService.Counted -= OnCount;
+        _timerService.CurrentTime.Changed -= OnChanged;
     }
     public void OnStart()
     {
@@ -58,7 +58,7 @@ public class DisappearingGameObjectsTimerView : ITimerView
 
     public void OnCount()
     {
-        if (_disapperingGameObjects.Count - 1 >= (int) _timerService.CurrentTime)
+        if (_disapperingGameObjects.Count - 1 >= (int) _timerService.CurrentTime.Value)
         {
             int indexOfLastDissapearingGameObject = _disapperingGameObjects.Count - 1;
             GameObject lastDissapearingGameObject = _disapperingGameObjects[indexOfLastDissapearingGameObject];
@@ -66,4 +66,7 @@ public class DisappearingGameObjectsTimerView : ITimerView
             UnityEngine.Object.Destroy(lastDissapearingGameObject);
         }
     }
+
+    private void OnChanged(float non1, float non2)
+        => OnCount();
 }

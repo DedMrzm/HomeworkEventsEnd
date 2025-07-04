@@ -10,6 +10,8 @@ public class WalletExample : MonoBehaviour
     [SerializeField] private GameObject PrefabOfWalletUI;
     [SerializeField] private GameObject PrefabOfEducationalUI;
 
+    IReadOnlyList<Wallet> _wallets;
+
     private Wallet _wallet;
 
     private void Awake()

@@ -10,22 +10,22 @@ public class TimerService
     public event Action Stoped;
     public event Action Continued;
     public event Action Reseted;
-    public event Action Counted;
 
     private float _startTime;
 
-    private float _currentTime;
+    private ReactiveVariable<float> _currentTime;
 
     public bool IsStarted;
     public bool IsPaused;
 
     public TimerService(float startTime)
     {
-        _startTime = startTime;
-        _currentTime = _startTime; 
+        _currentTime = new ReactiveVariable<float>(startTime);
+
+        _startTime = startTime; 
     }
 
-    public float CurrentTime => _currentTime;
+    public IReadonlyVariable<float> CurrentTime => _currentTime;
     public float StartTime => _startTime;
 
     public void Update()
@@ -38,16 +38,14 @@ public class TimerService
 
     private void Count()
     {
-        _currentTime -= Time.deltaTime;
+        _currentTime.Value -= Time.deltaTime;
 
-        Debug.Log((int) _currentTime);
+        Debug.Log((int) _currentTime.Value);
 
-        if (_currentTime <= 0)
+        if (_currentTime.Value <= 0)
         {
-            _currentTime = 0;
+            _currentTime.Value = 0;
         }
-
-        Counted?.Invoke();
     }
 
     public void StartTimer()
@@ -74,7 +72,7 @@ public class TimerService
 
     public void ResetTimer()
     {
-        _currentTime = _startTime;
+        _currentTime.Value = _startTime;
         IsStarted = false;
         IsPaused = false;
 

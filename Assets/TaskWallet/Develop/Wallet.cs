@@ -4,34 +4,27 @@ using UnityEngine;
 
 public class Wallet
 {
-    public event Action<int, CurrenciesTypes> Spended;
-    public event Action<int, CurrenciesTypes> Recieved;
-
-    public Dictionary<CurrenciesTypes, int> Currencies = new Dictionary<CurrenciesTypes, int>();
+    public Dictionary<CurrenciesTypes, ReactiveVariable<int>> Currencies = new Dictionary<CurrenciesTypes, ReactiveVariable<int>>();
 
     public Wallet(params CurrenciesTypes[] currencies)
     {
         foreach (CurrenciesTypes currencyType in currencies)
-            Currencies.Add(currencyType, 5);
+            Currencies.Add(currencyType, new ReactiveVariable<int>());
     }
 
-    public void Recieve(CurrenciesTypes currencyType, int value)
+    public void Recieve(CurrenciesTypes currencyType, int recievedCurrency)
     {
-        if (value < 0)
+        if (recievedCurrency < 0)
             return;
 
-        Currencies[currencyType] += value;
-
-        Recieved?.Invoke(value, currencyType);
+        Currencies[currencyType].Value += recievedCurrency;
     }
 
-    public void Spend(CurrenciesTypes currencyType, int value)
+    public void Spend(CurrenciesTypes currencyType, int spendedCurrency)
     {
-        if (value < 0 || Currencies[currencyType] - value < 0)
+        if (spendedCurrency < 0 || Currencies[currencyType].Value - spendedCurrency < 0)
              return;
 
-        Currencies[currencyType] -= value;
-
-        Spended?.Invoke(value, currencyType);
+        Currencies[currencyType].Value -= spendedCurrency;
     }
 }

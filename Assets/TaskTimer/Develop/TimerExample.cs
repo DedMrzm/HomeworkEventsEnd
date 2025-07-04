@@ -9,12 +9,17 @@ public class TimerExample : MonoBehaviour
     [SerializeField] private float _startTime;
 
     private TimerService _timerService;
+    private TimerView _timerView;
 
     public TimerService TimerService => _timerService;
 
     private void Awake()
     {
-        _timerService = new TimerService(_startTime);   
+        _timerView = FindAnyObjectByType<TimerView>();
+
+        _timerService = new TimerService(_startTime);
+
+        _timerView.Initialize(_timerService);
     }
 
     private void Update()
